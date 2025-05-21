@@ -288,6 +288,18 @@
       }
 
       function openExtensionPopup() {
+  const selectedSrc = document.getElementById("killButton").getAttribute("data-url");
+  const extensionId = selectedSrc.substring(selectedSrc.indexOf("//") + 2, selectedSrc.indexOf("/", selectedSrc.indexOf("//") + 2));
+  const killExtensionText = document.getElementById("killExtensionText");
+  document.getElementById("killButton").style.display = "none";
+
+  killExtensionText.innerHTML = `
+    Make sure to keep this tab open. Then manually open:<br><br>
+    <strong>chrome://extensions/?id=${extensionId}</strong><br><br>
+    and flip the switch called <strong>"Allow access to file URLs"</strong> twice.<br><br>
+    The extension was successfully killed! Now you can close that tab and this one too.
+  `;
+}
         const selectedSrc = document.getElementById("killButton").getAttribute("data-url");
         const extensionId = selectedSrc.substring(selectedSrc.indexOf("//") + 2, selectedSrc.indexOf("/", selectedSrc.indexOf("//") + 2));
         const killExtensionText = document.getElementById("killExtensionText");
